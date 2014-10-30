@@ -17,6 +17,10 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.js"></script> <!-- this is the javascript file that does the magic-->
 	<script src="js/leaflet.markercluster.js"></script>
 	
+				<script src='data/exp_NoSurcharge.js' ></script>
+				
+				<script src='data/exp_YesSurcharge.js' ></script>
+				
 	<script>
 		var map = L.map('map', { zoomControl:true }).fitBounds([[37.2864815385,-122.33052147],[38.090479688,-121.68136233]]);
 		var additional_attrib = 'created w. <a href="https://github.com/geolicious/qgis2leaf" target ="_blank">qgis2leaf</a> by <a href="http://www.geolicious.de" target ="_blank">Geolicious</a> & contributors<br>';
@@ -28,6 +32,56 @@
 	map.attributionControl.addAttribution(additional_attrib + '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>');	
 	basemap.addTo(map);	
 	var layerOrder=new Array();
+				function pop_YesSurcharge(feature, layer) {
+										var popupContent = '<table><tr><th scope="row">ogc_fid</th><td>' + Autolinker.link(String(feature.properties.ogc_fid)) + '</td></tr><tr><th scope="row">OBJECTID</th><td>' + Autolinker.link(String(feature.properties.OBJECTID)) + '</td></tr><tr><th scope="row">ID</th><td>' + Autolinker.link(String(feature.properties.ID)) + '</td></tr><tr><th scope="row">Name</th><td>' + Autolinker.link(String(feature.properties.Name)) + '</td></tr><tr><th scope="row">Device</th><td>' + Autolinker.link(String(feature.properties.Device)) + '</td></tr><tr><th scope="row">LocationNa</th><td>' + Autolinker.link(String(feature.properties.LocationNa)) + '</td></tr><tr><th scope="row">Surcharge</th><td>' + Autolinker.link(String(feature.properties.Surcharge)) + '</td></tr><tr><th scope="row">SCAmount</th><td>' + Autolinker.link(String(feature.properties.SCAmount)) + '</td></tr><tr><th scope="row">WDLimit</th><td>' + Autolinker.link(String(feature.properties.WDLimit)) + '</td></tr><tr><th scope="row">Street</th><td>' + Autolinker.link(String(feature.properties.Street)) + '</td></tr><tr><th scope="row">City</th><td>' + Autolinker.link(String(feature.properties.City)) + '</td></tr><tr><th scope="row">State</th><td>' + Autolinker.link(String(feature.properties.State)) + '</td></tr><tr><th scope="row">Zip</th><td>' + Autolinker.link(String(feature.properties.Zip)) + '</td></tr><tr><th scope="row">X</th><td>' + Autolinker.link(String(feature.properties.X)) + '</td></tr><tr><th scope="row">Y</th><td>' + Autolinker.link(String(feature.properties.Y)) + '</td></tr><tr><th scope="row">Status</th><td>' + Autolinker.link(String(feature.properties.Status)) + '</td></tr><tr><th scope="row">Score</th><td>' + Autolinker.link(String(feature.properties.Score)) + '</td></tr><tr><th scope="row">Match_type</th><td>' + Autolinker.link(String(feature.properties.Match_type)) + '</td></tr><tr><th scope="row">Side</th><td>' + Autolinker.link(String(feature.properties.Side)) + '</td></tr><tr><th scope="row">Match_addr</th><td>' + Autolinker.link(String(feature.properties.Match_addr)) + '</td></tr><tr><th scope="row">ARC_Street</th><td>' + Autolinker.link(String(feature.properties.ARC_Street)) + '</td></tr><tr><th scope="row">ARC_City</th><td>' + Autolinker.link(String(feature.properties.ARC_City)) + '</td></tr><tr><th scope="row">ARC_State</th><td>' + Autolinker.link(String(feature.properties.ARC_State)) + '</td></tr><tr><th scope="row">ARC_ZIP</th><td>' + Autolinker.link(String(feature.properties.ARC_ZIP)) + '</td></tr></table>';
+					layer.bindPopup(popupContent);
+
+
+				}
+						
+				var exp_YesSurchargeJSON = new L.geoJson(exp_YesSurcharge,{
+					onEachFeature: pop_YesSurcharge,
+					pointToLayer: function (feature, latlng) {  
+						return L.circleMarker(latlng, {
+							radius: feature.properties.radius_qgis2leaf,
+							fillColor: feature.properties.color_qgis2leaf,
+							color: '#000',
+							weight: 0.2,
+							opacity: feature.properties.transp_qgis2leaf,
+							fillOpacity: feature.properties.transp_qgis2leaf
+							})
+						}
+					});
+				
+				feature_group.addLayer(exp_YesSurchargeJSON);
+				
+						//add comment sign to hide this layer on the map in the initial view.
+						exp_YesSurchargeJSON.addTo(map);
+				function pop_NoSurcharge(feature, layer) {
+										var popupContent = '<table><tr><th scope="row">ogc_fid</th><td>' + Autolinker.link(String(feature.properties.ogc_fid)) + '</td></tr><tr><th scope="row">OBJECTID</th><td>' + Autolinker.link(String(feature.properties.OBJECTID)) + '</td></tr><tr><th scope="row">ID</th><td>' + Autolinker.link(String(feature.properties.ID)) + '</td></tr><tr><th scope="row">Name</th><td>' + Autolinker.link(String(feature.properties.Name)) + '</td></tr><tr><th scope="row">Device</th><td>' + Autolinker.link(String(feature.properties.Device)) + '</td></tr><tr><th scope="row">LocationNa</th><td>' + Autolinker.link(String(feature.properties.LocationNa)) + '</td></tr><tr><th scope="row">Surcharge</th><td>' + Autolinker.link(String(feature.properties.Surcharge)) + '</td></tr><tr><th scope="row">SCAmount</th><td>' + Autolinker.link(String(feature.properties.SCAmount)) + '</td></tr><tr><th scope="row">WDLimit</th><td>' + Autolinker.link(String(feature.properties.WDLimit)) + '</td></tr><tr><th scope="row">Street</th><td>' + Autolinker.link(String(feature.properties.Street)) + '</td></tr><tr><th scope="row">City</th><td>' + Autolinker.link(String(feature.properties.City)) + '</td></tr><tr><th scope="row">State</th><td>' + Autolinker.link(String(feature.properties.State)) + '</td></tr><tr><th scope="row">Zip</th><td>' + Autolinker.link(String(feature.properties.Zip)) + '</td></tr><tr><th scope="row">X</th><td>' + Autolinker.link(String(feature.properties.X)) + '</td></tr><tr><th scope="row">Y</th><td>' + Autolinker.link(String(feature.properties.Y)) + '</td></tr><tr><th scope="row">Status</th><td>' + Autolinker.link(String(feature.properties.Status)) + '</td></tr><tr><th scope="row">Score</th><td>' + Autolinker.link(String(feature.properties.Score)) + '</td></tr><tr><th scope="row">Match_type</th><td>' + Autolinker.link(String(feature.properties.Match_type)) + '</td></tr><tr><th scope="row">Side</th><td>' + Autolinker.link(String(feature.properties.Side)) + '</td></tr><tr><th scope="row">Match_addr</th><td>' + Autolinker.link(String(feature.properties.Match_addr)) + '</td></tr><tr><th scope="row">ARC_Street</th><td>' + Autolinker.link(String(feature.properties.ARC_Street)) + '</td></tr><tr><th scope="row">ARC_City</th><td>' + Autolinker.link(String(feature.properties.ARC_City)) + '</td></tr><tr><th scope="row">ARC_State</th><td>' + Autolinker.link(String(feature.properties.ARC_State)) + '</td></tr><tr><th scope="row">ARC_ZIP</th><td>' + Autolinker.link(String(feature.properties.ARC_ZIP)) + '</td></tr></table>';
+					layer.bindPopup(popupContent);
+
+
+				}
+						
+				var exp_NoSurchargeJSON = new L.geoJson(exp_NoSurcharge,{
+					onEachFeature: pop_NoSurcharge,
+					pointToLayer: function (feature, latlng) {  
+						return L.circleMarker(latlng, {
+							radius: feature.properties.radius_qgis2leaf,
+							fillColor: feature.properties.color_qgis2leaf,
+							color: '#000',
+							weight: 0.2,
+							opacity: feature.properties.transp_qgis2leaf,
+							fillOpacity: feature.properties.transp_qgis2leaf
+							})
+						}
+					});
+				
+				feature_group.addLayer(exp_NoSurchargeJSON);
+				
+						//add comment sign to hide this layer on the map in the initial view.
+						exp_NoSurchargeJSON.addTo(map);
 		var title = new L.Control();
 		title.onAdd = function (map) {
 			this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
@@ -38,7 +92,7 @@
 			this._div.innerHTML = '<h2>This is the title</h2>This is the subtitle'
 		};
 		title.addTo(map);
-	L.control.layers({'OSM Standard': basemap},},{collapsed:false}).addTo(map);
+	L.control.layers({'OSM Standard': basemap},{"No Surcharge": exp_NoSurchargeJSON,"Yes Surcharge": exp_YesSurchargeJSON},{collapsed:false}).addTo(map);
 	L.control.scale({options: {position: 'bottomleft',maxWidth: 100,metric: true,imperial: false,updateWhenIdle: false}}).addTo(map);
 	</script>
 </body>
